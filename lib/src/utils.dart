@@ -5,7 +5,6 @@ enum SeekBarDragState {
   FINISH,
 }
 
-
 typedef SeekBarProgress = void Function(int progress);
 typedef SeekBarStarted = void Function();
 typedef SeekBarFinished = void Function(int progress);

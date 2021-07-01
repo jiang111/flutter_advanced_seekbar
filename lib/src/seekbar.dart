@@ -5,7 +5,6 @@ import 'package:flutter_advanced_seekbar/src/utils.dart';
 
 /// @author newtab on 2021/5/7
 
-
 class AdvancedSeekBar extends LeafRenderObjectWidget {
   final int defaultProgress;
 
@@ -328,5 +327,3 @@ class SeekBarRenderBox extends RenderBox {
     markNeedsPaint();
   }
 }
-
-
