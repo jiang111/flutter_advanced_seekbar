@@ -5,7 +5,7 @@
 
 |Horizontal|Vertical|
 |-------------------------| ------------------------- |
-| ![](https://raw.githubusercontent.com/jiang111/flutter_advanced_seekbar/master/img/demo.gif)  |  ![](https://raw.githubusercontent.com/jiang111/flutter_advanced_seekbar/master/img/2.png) |
+| ![](https://raw.githubusercontent.com/jiang111/flutter_advanced_seekbar/master/img/demo.gif)  |  ![](https://raw.githubusercontent.com/jiang111/flutter_advanced_seekbar/master/img/demo2.gif) |
 
 ## install
 
