@@ -51,6 +51,6 @@ AdvancedSeekBar(
 | percentSplitWidth | 拆分条的宽度 输入值最小为2  |0| 非必填 | 
 | percentSplitColor | 拆分条的颜色  |无| 非必填 | 
 | autoJump2Split | 如果拆分 seek后是否必须到拆分点上 参考demo4 |true| 非必填 | 
-| fillProgress | 完成的进度是否标记为thumb的颜色 参考demo1 |false| | 非必填 | 
+| fillProgress | 完成的进度是否标记为thumb的颜色 参考demo1 |false| 非必填 | 
 
 
