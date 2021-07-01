@@ -3,6 +3,10 @@
 ![](https://raw.githubusercontent.com/jiang111/flutter_advanced_seekbar/master/img/demo.gif)
 
 
+            |  
+:-------------------------:|:-------------------------:
+![](https://raw.githubusercontent.com/jiang111/flutter_advanced_seekbar/master/img/1.png)  |  ![](https://raw.githubusercontent.com/jiang111/flutter_advanced_seekbar/master/img/2.png)
+
 ## install
 
 ### Add to pubspec
@@ -16,6 +20,11 @@ dependencies:
 
 ## Usage 
 ```dart
+
+AdvancedSeekBar
+
+AdvancedVerticalSeekBar
+
 AdvancedSeekBar(
               Colors.red,
               10,

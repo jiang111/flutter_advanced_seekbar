@@ -5,38 +5,37 @@ import 'package:flutter_advanced_seekbar/src/utils.dart';
 
 /// @author newtab on 2021/5/7
 
-
-class AdvancedSeekBar extends LeafRenderObjectWidget {
+class AdvancedVerticalSeekBar extends LeafRenderObjectWidget {
   final int defaultProgress;
 
   final Color lineColor;
   final Color thumbColor;
   final int thumbSize;
 
-  final int lineHeight;
+  final int lineWidth;
 
   final SeekBarStarted? seekBarStarted;
   final SeekBarProgress? seekBarProgress;
   final SeekBarFinished? seekBarFinished;
   final bool scaleWhileDrag;
   final int percentSplit;
-  final int percentSplitWidth;
+  final int percentSplitHeight;
   final Color percentSplitColor;
   final bool autoJump2Split;
   final bool fillProgress;
 
-  AdvancedSeekBar(
+  AdvancedVerticalSeekBar(
     this.lineColor,
     this.thumbSize,
     this.thumbColor, {
     this.defaultProgress = 0,
-    this.lineHeight = 0,
+    this.lineWidth = 0,
     this.seekBarStarted,
     this.seekBarProgress,
     this.seekBarFinished,
     this.scaleWhileDrag = true,
     this.percentSplit = 0,
-    this.percentSplitWidth = 0,
+    this.percentSplitHeight = 0,
     this.percentSplitColor = Colors.transparent,
     this.autoJump2Split = true,
     this.fillProgress = false,
@@ -44,39 +43,38 @@ class AdvancedSeekBar extends LeafRenderObjectWidget {
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    return SeekBarRenderBox(
+    return VerticalSeekBarRenderBox(
       this.lineColor,
       this.thumbSize,
       this.thumbColor,
       defaultProgress: this.defaultProgress,
-      lineHeight: this.lineHeight,
+      lineWidth: this.lineWidth,
       seekBarStarted: this.seekBarStarted,
       seekBarProgress: this.seekBarProgress,
       seekBarFinished: this.seekBarFinished,
       scaleWhileDrag: this.scaleWhileDrag,
       percentSplit: this.percentSplit,
       percentSplitColor: this.percentSplitColor,
-      percentSplitWidth: this.percentSplitWidth,
+      percentSplitHeight: this.percentSplitHeight,
       autoJump2Split: this.autoJump2Split,
       fillProgress: this.fillProgress,
     );
   }
 
   @override
-  void updateRenderObject(
-      BuildContext context, covariant SeekBarRenderBox renderObject) {
+  void updateRenderObject(BuildContext context, covariant VerticalSeekBarRenderBox renderObject) {
     renderObject.update(
       this.lineColor,
       this.thumbSize,
       this.thumbColor,
       this.defaultProgress,
-      this.lineHeight,
+      this.lineWidth,
       this.seekBarStarted,
       this.seekBarProgress,
       this.seekBarFinished,
       this.scaleWhileDrag,
       this.percentSplit,
-      this.percentSplitWidth,
+      this.percentSplitHeight,
       this.percentSplitColor,
       this.autoJump2Split,
       this.fillProgress,
@@ -84,21 +82,21 @@ class AdvancedSeekBar extends LeafRenderObjectWidget {
   }
 }
 
-class SeekBarRenderBox extends RenderBox {
+class VerticalSeekBarRenderBox extends RenderBox {
   int defaultProgress;
 
   Color lineColor;
   Color thumbColor;
   int thumbSize = 0;
 
-  int lineHeight;
+  int lineWidth;
 
   SeekBarStarted? seekBarStarted;
   SeekBarProgress? seekBarProgress;
   SeekBarFinished? seekBarFinished;
   bool scaleWhileDrag;
   int percentSplit;
-  int percentSplitWidth;
+  int percentSplitHeight;
   Color percentSplitColor;
   bool autoJump2Split;
   bool fillProgress;
@@ -106,20 +104,20 @@ class SeekBarRenderBox extends RenderBox {
 
   double progress = 0; //0 - 1
 
-  late HorizontalDragGestureRecognizer _drag;
+  late VerticalDragGestureRecognizer _drag;
 
-  SeekBarRenderBox(
+  VerticalSeekBarRenderBox(
     this.lineColor,
     this.thumbSize,
     this.thumbColor, {
     this.defaultProgress = 0,
-    this.lineHeight = 0,
+    this.lineWidth = 0,
     this.seekBarStarted,
     this.seekBarProgress,
     this.seekBarFinished,
     this.scaleWhileDrag = true,
     this.percentSplit = 0,
-    this.percentSplitWidth = 0,
+    this.percentSplitHeight = 0,
     this.percentSplitColor = Colors.transparent,
     this.autoJump2Split = true,
     this.fillProgress = false,
@@ -129,7 +127,7 @@ class SeekBarRenderBox extends RenderBox {
       percentSplit = 0;
     }
 
-    _drag = HorizontalDragGestureRecognizer()
+    _drag = VerticalDragGestureRecognizer()
       ..onStart = (DragStartDetails details) {
         _startDragThumbPosition(details.localPosition);
       }
@@ -151,8 +149,8 @@ class SeekBarRenderBox extends RenderBox {
 
   @override
   Size computeDryLayout(BoxConstraints constraints) {
-    final desiredWidth = constraints.maxWidth;
-    final desiredHeight = thumbSize.toDouble() * 2;
+    final desiredHeight = constraints.maxHeight;
+    final desiredWidth = thumbSize.toDouble() * 2;
     final desiredSize = Size(desiredWidth, desiredHeight);
     return constraints.constrain(desiredSize);
   }
@@ -162,59 +160,54 @@ class SeekBarRenderBox extends RenderBox {
     context.canvas.save();
     context.canvas.translate(offset.dx, offset.dy);
 
-    double tempHeight =
-        (lineHeight == 0 ? (thumbSize / 2) : lineHeight).toDouble();
+    double tempWidth = (lineWidth == 0 ? (thumbSize / 2) : lineWidth).toDouble();
 
     context.canvas.drawLine(
-        Offset(0, size.height / 2),
-        Offset(size.width, size.height / 2),
+        Offset(size.width / 2, 0),
+        Offset(size.width / 2, size.height),
         Paint()
           ..color = lineColor
           ..style = PaintingStyle.stroke
           ..strokeCap = StrokeCap.round
-          ..strokeWidth = tempHeight);
+          ..strokeWidth = tempWidth);
 
     if (percentSplit > 1) {
       double tempOffset = 0;
-      double totalWidth = size.width;
-      while (tempOffset <= totalWidth) {
+      double totalHeight = size.height;
+      while (tempOffset <= totalHeight) {
         context.canvas.drawLine(
-            Offset(tempOffset, size.height / 2),
-            Offset(
-                tempOffset == totalWidth
-                    ? (tempOffset - percentSplitWidth)
-                    : tempOffset + percentSplitWidth,
-                size.height / 2),
+            Offset(size.width / 2, tempOffset),
+            Offset(size.width / 2, tempOffset == totalHeight ? (tempOffset - percentSplitHeight) : tempOffset + percentSplitHeight),
             Paint()
               ..color = percentSplitColor
               ..style = PaintingStyle.stroke
-              ..strokeWidth = tempHeight
+              ..strokeWidth = tempWidth
               ..strokeCap = StrokeCap.round);
-        tempOffset += totalWidth / percentSplit;
+        tempOffset += totalHeight / percentSplit;
       }
     }
 
     if (fillProgress) {
       context.canvas.drawLine(
-          Offset(0, size.height / 2),
-          Offset(progress * size.width, size.height / 2),
+          Offset(size.width / 2, 0),
+          Offset(size.width / 2, progress * size.height),
           Paint()
             ..color = thumbColor
             ..style = PaintingStyle.stroke
             ..strokeCap = StrokeCap.round
-            ..strokeWidth = tempHeight);
+            ..strokeWidth = tempWidth);
     }
 
     if (_seekBarDragState == SeekBarDragState.FINISH) {
       context.canvas.drawCircle(
-          Offset(progress * size.width, size.height / 2),
+          Offset(size.width / 2, progress * size.height),
           thumbSize / 2,
           Paint()
             ..color = thumbColor
             ..style = PaintingStyle.fill);
     } else {
       context.canvas.drawCircle(
-          Offset(progress * size.width, size.height / 2),
+          Offset(size.width / 2, progress * size.height),
           scaleWhileDrag ? thumbSize / 2 * 1.5 : thumbSize / 2,
           Paint()
             ..color = thumbColor
@@ -239,8 +232,8 @@ class SeekBarRenderBox extends RenderBox {
   }
 
   void _startDragThumbPosition(Offset localPosition) {
-    var dx = localPosition.dx.clamp(0, size.width);
-    var tempOffset = dx / size.width;
+    var dx = localPosition.dy.clamp(0, size.height);
+    var tempOffset = dx / size.height;
     _seekBarDragState = SeekBarDragState.START;
     progress = tempOffset;
     if (seekBarStarted != null) {
@@ -254,8 +247,8 @@ class SeekBarRenderBox extends RenderBox {
   }
 
   void _updateDragThumbPosition(Offset localPosition) {
-    var dx = localPosition.dx.clamp(0, size.width);
-    var tempOffset = dx / size.width;
+    var dx = localPosition.dy.clamp(0, size.height);
+    var tempOffset = dx / size.height;
     progress = tempOffset;
     _seekBarDragState = SeekBarDragState.PROGRESS;
     if (seekBarProgress != null) {
@@ -312,14 +305,14 @@ class SeekBarRenderBox extends RenderBox {
     this.thumbSize = thumbSize;
     this.thumbColor = thumbColor;
     this.defaultProgress = defaultProgress;
-    this.lineHeight = lineHeight;
+    this.lineWidth = lineHeight;
     this.seekBarStarted = seekBarStarted;
     this.seekBarProgress = seekBarProgress;
     this.seekBarFinished = seekBarFinished;
     this.scaleWhileDrag = scaleWhileDrag;
     this.percentSplitColor = percentSplitColor;
     this.percentSplit = percentSplit;
-    this.percentSplitWidth = percentSplitWidth;
+    this.percentSplitHeight = percentSplitWidth;
     this.autoJump2Split = autoJump2Split;
     this.fillProgress = fillProgress;
     if (percentSplit > 100) {
@@ -328,5 +321,3 @@ class SeekBarRenderBox extends RenderBox {
     markNeedsPaint();
   }
 }
-
-
