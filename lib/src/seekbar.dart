@@ -65,7 +65,8 @@ class AdvancedSeekBar extends LeafRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(BuildContext context, covariant SeekBarRenderBox renderObject) {
+  void updateRenderObject(
+      BuildContext context, covariant SeekBarRenderBox renderObject) {
     renderObject.update(
       this.lineColor,
       this.thumbSize,
@@ -163,7 +164,8 @@ class SeekBarRenderBox extends RenderBox {
     context.canvas.save();
     context.canvas.translate(offset.dx, offset.dy);
 
-    double tempHeight = (lineHeight == 0 ? (thumbSize / 2) : lineHeight).toDouble();
+    double tempHeight =
+        (lineHeight == 0 ? (thumbSize / 2) : lineHeight).toDouble();
 
     context.canvas.drawLine(
         Offset(0, size.height / 2),
@@ -180,7 +182,11 @@ class SeekBarRenderBox extends RenderBox {
       while (tempOffset <= totalWidth) {
         context.canvas.drawLine(
             Offset(tempOffset, size.height / 2),
-            Offset(tempOffset == totalWidth ? (tempOffset - percentSplitWidth) : tempOffset + percentSplitWidth, size.height / 2),
+            Offset(
+                tempOffset == totalWidth
+                    ? (tempOffset - percentSplitWidth)
+                    : tempOffset + percentSplitWidth,
+                size.height / 2),
             Paint()
               ..color = percentSplitColor
               ..style = PaintingStyle.stroke
