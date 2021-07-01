@@ -1,6 +1,6 @@
 name: flutter_advanced_seekbar
-description: flutter_advanced_seekbar
-version: 0.0.1
+description: flutter_advanced_seekbar support Horizontal and Vertical
+version: 0.0.2
 homepage: https://github.com/jiang111/flutter_advanced_seekbar
 
 environment:

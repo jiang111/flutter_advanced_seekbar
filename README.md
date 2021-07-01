@@ -1,8 +1,6 @@
 # flutter_advanced_seekbar
 
 
-
-
 |Horizontal|Vertical|
 |-------------------------| ------------------------- |
 | ![](https://raw.githubusercontent.com/jiang111/flutter_advanced_seekbar/master/img/demo.gif)  |  ![](https://raw.githubusercontent.com/jiang111/flutter_advanced_seekbar/master/img/demo2.gif) |
