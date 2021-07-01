@@ -1,7 +1,7 @@
 name: flutter_advanced_seekbar
-description: A new Flutter package project.
+description: flutter_advanced_seekbar
 version: 0.0.1
-homepage:
+homepage: https://github.com/jiang111/flutter_advanced_seekbar
 
 environment:
   sdk: ">=2.12.0 <3.0.0"

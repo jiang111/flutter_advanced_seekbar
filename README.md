@@ -43,14 +43,14 @@ AdvancedSeekBar(
 | thumbColor | 圆点的颜色  |无| 必填 |
 | defaultProgress | 原点默认指向 |0|  非必填 |
 | lineHeight | 背景条的高度  |thumbSize/2| 非必填 |
-| seekBarStarted | 开始seek回调  |无| 必填 |
-| seekBarProgress | seek进度回调  |无| 必填 | 
-| seekBarFinished | 完成seek回调  |无| 必填 | 
-| scaleWhileDrag | 圆点在拖动时是否放大 |true | 必填 | 
-| percentSplit | 是否需要拆分进度 参考demo3/4  |false| 必填 | 
-| percentSplitWidth | 拆分条的宽度 输入值最小为2  |0| 必填 | 
-| percentSplitColor | 拆分条的颜色  |无| 必填 | 
-| autoJump2Split | 如果拆分 seek后是否必须到拆分点上 参考demo4 |true| 必填 | 
-| fillProgress | 完成的进度是否标记为thumb的颜色 参考demo1 |false| | 必填 | 
+| seekBarStarted | 开始seek回调  |无| 非必填 |
+| seekBarProgress | seek进度回调  |无| 非必填 | 
+| seekBarFinished | 完成seek回调  |无| 非必填 | 
+| scaleWhileDrag | 圆点在拖动时是否放大 |true | 非必填 | 
+| percentSplit | 是否需要拆分进度 参考demo3/4  |false| 非必填 | 
+| percentSplitWidth | 拆分条的宽度 输入值最小为2  |0| 非必填 | 
+| percentSplitColor | 拆分条的颜色  |无| 非必填 | 
+| autoJump2Split | 如果拆分 seek后是否必须到拆分点上 参考demo4 |true| 非必填 | 
+| fillProgress | 完成的进度是否标记为thumb的颜色 参考demo1 |false| | 非必填 | 
 
 
