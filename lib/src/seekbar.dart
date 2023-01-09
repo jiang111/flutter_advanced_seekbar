@@ -10,7 +10,9 @@ class AdvancedSeekBar extends LeafRenderObjectWidget {
 
   final Color lineColor;
   final Color thumbColor;
+  final Color strokeColor;
   final int thumbSize;
+  final double strokeWidth;
 
   final int lineHeight;
 
@@ -25,21 +27,23 @@ class AdvancedSeekBar extends LeafRenderObjectWidget {
   final bool fillProgress;
 
   AdvancedSeekBar(
-    this.lineColor,
-    this.thumbSize,
-    this.thumbColor, {
-    this.defaultProgress = 0,
-    this.lineHeight = 0,
-    this.seekBarStarted,
-    this.seekBarProgress,
-    this.seekBarFinished,
-    this.scaleWhileDrag = true,
-    this.percentSplit = 0,
-    this.percentSplitWidth = 0,
-    this.percentSplitColor = Colors.transparent,
-    this.autoJump2Split = true,
-    this.fillProgress = false,
-  });
+      this.lineColor,
+      this.thumbSize,
+      this.thumbColor, {
+        this.strokeWidth = 0,
+        this.strokeColor = Colors.white,
+        this.defaultProgress = 0,
+        this.lineHeight = 0,
+        this.seekBarStarted,
+        this.seekBarProgress,
+        this.seekBarFinished,
+        this.scaleWhileDrag = true,
+        this.percentSplit = 0,
+        this.percentSplitWidth = 0,
+        this.percentSplitColor = Colors.transparent,
+        this.autoJump2Split = true,
+        this.fillProgress = false,
+      });
 
   @override
   RenderObject createRenderObject(BuildContext context) {
@@ -47,6 +51,8 @@ class AdvancedSeekBar extends LeafRenderObjectWidget {
       this.lineColor,
       this.thumbSize,
       this.thumbColor,
+      strokeWidth: this.strokeWidth,
+      strokeColor: this.strokeColor,
       defaultProgress: this.defaultProgress,
       lineHeight: this.lineHeight,
       seekBarStarted: this.seekBarStarted,
@@ -88,7 +94,9 @@ class SeekBarRenderBox extends RenderBox {
 
   Color lineColor;
   Color thumbColor;
+  Color? strokeColor;
   int thumbSize = 0;
+  double strokeWidth = 0;
 
   int lineHeight;
 
@@ -108,21 +116,23 @@ class SeekBarRenderBox extends RenderBox {
   late HorizontalDragGestureRecognizer _drag;
 
   SeekBarRenderBox(
-    this.lineColor,
-    this.thumbSize,
-    this.thumbColor, {
-    this.defaultProgress = 0,
-    this.lineHeight = 0,
-    this.seekBarStarted,
-    this.seekBarProgress,
-    this.seekBarFinished,
-    this.scaleWhileDrag = true,
-    this.percentSplit = 0,
-    this.percentSplitWidth = 0,
-    this.percentSplitColor = Colors.transparent,
-    this.autoJump2Split = true,
-    this.fillProgress = false,
-  }) {
+      this.lineColor,
+      this.thumbSize,
+      this.thumbColor, {
+        this.defaultProgress = 0,
+        this.strokeWidth = 0,
+        this.strokeColor,
+        this.lineHeight = 0,
+        this.seekBarStarted,
+        this.seekBarProgress,
+        this.seekBarFinished,
+        this.scaleWhileDrag = true,
+        this.percentSplit = 0,
+        this.percentSplitWidth = 0,
+        this.percentSplitColor = Colors.transparent,
+        this.autoJump2Split = true,
+        this.fillProgress = false,
+      }) {
     progress = defaultProgress * 1.0 / 100;
     if (percentSplit > 100) {
       percentSplit = 0;
@@ -162,7 +172,7 @@ class SeekBarRenderBox extends RenderBox {
     context.canvas.translate(offset.dx, offset.dy);
 
     double tempHeight =
-        (lineHeight == 0 ? (thumbSize / 2) : lineHeight).toDouble();
+    (lineHeight == 0 ? (thumbSize / 2) : lineHeight).toDouble();
 
     context.canvas.drawLine(
         Offset(0, size.height / 2),
@@ -211,6 +221,7 @@ class SeekBarRenderBox extends RenderBox {
           Paint()
             ..color = thumbColor
             ..style = PaintingStyle.fill);
+      if(strokeWidth!=0)addStroke(context, thumbSize / 2);
     } else {
       context.canvas.drawCircle(
           Offset(progress * size.width, size.height / 2),
@@ -218,8 +229,27 @@ class SeekBarRenderBox extends RenderBox {
           Paint()
             ..color = thumbColor
             ..style = PaintingStyle.fill);
+      if(strokeWidth!=0)addStroke(context, scaleWhileDrag ? thumbSize / 2 * 1.5 : thumbSize / 2);
     }
     context.canvas.restore();
+  }
+
+  void addStroke(PaintingContext context, double thumbSize){
+    context.canvas.drawCircle(
+        Offset(progress * size.width, size.height / 2),
+        thumbSize,
+        Paint()
+          ..color = Colors.white
+          ..strokeWidth = strokeWidth
+          ..style = PaintingStyle.stroke);
+
+    context.canvas.drawCircle(
+        Offset(progress * size.width, size.height / 2),
+        (thumbSize) + strokeWidth/2.5,
+        Paint()
+          ..color = thumbColor
+          ..strokeWidth = 1
+          ..style = PaintingStyle.stroke);
   }
 
   @override
@@ -292,21 +322,21 @@ class SeekBarRenderBox extends RenderBox {
   }
 
   void update(
-    Color lineColor,
-    int thumbSize,
-    Color thumbColor,
-    int defaultProgress,
-    int lineHeight,
-    SeekBarStarted? seekBarStarted,
-    SeekBarProgress? seekBarProgress,
-    SeekBarFinished? seekBarFinished,
-    bool scaleWhileDrag,
-    int percentSplit,
-    int percentSplitWidth,
-    Color percentSplitColor,
-    bool autoJump2Split,
-    bool fillProgress,
-  ) {
+      Color lineColor,
+      int thumbSize,
+      Color thumbColor,
+      int defaultProgress,
+      int lineHeight,
+      SeekBarStarted? seekBarStarted,
+      SeekBarProgress? seekBarProgress,
+      SeekBarFinished? seekBarFinished,
+      bool scaleWhileDrag,
+      int percentSplit,
+      int percentSplitWidth,
+      Color percentSplitColor,
+      bool autoJump2Split,
+      bool fillProgress,
+      ) {
     this.lineColor = lineColor;
     this.thumbSize = thumbSize;
     this.thumbColor = thumbColor;
