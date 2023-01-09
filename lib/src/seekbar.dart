@@ -245,7 +245,7 @@ class SeekBarRenderBox extends RenderBox {
 
     context.canvas.drawCircle(
         Offset(progress * size.width, size.height / 2),
-        (thumbSize) + strokeWidth - 2,
+        (thumbSize) + strokeWidth/2.5,
         Paint()
           ..color = thumbColor
           ..strokeWidth = 1
